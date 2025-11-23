@@ -1,7 +1,7 @@
 // src/Hero.jsx
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
-
+import Button from "./ui/Button";
 const titleLines = [
   "Votre rénovation de A à Z,",
   "sans stress, sans imprévu.",
@@ -103,9 +103,9 @@ function Hero() {
 
           {/* CTA + petite note */}
           <div className="space-y-3">
-            <button className="hero-cta inline-flex items-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 md:px-5 md:py-2.5 rounded-full bg-blue-900 text-amber-50 text-base sm:text-lg md:text-sm font-medium tracking-wide shadow-md hover:shadow-lg hover:-translate-y-[1px] active:scale-95 transition-all duration-200">
-              <span>Discutons de votre projet (gratuitement)</span>
-            </button>
+            <Button variant="secondary" size="lg">
+              Discutons de votre projet (gratuitement)
+            </Button>
 
             <p className="hero-meta text-sm sm:text-base md:text-sm text-slate-500 max-w-xl mx-auto md:mx-0">
               30% de nos clients viennent à nous parce qu&apos;un autre artisan

@@ -1,6 +1,8 @@
- import React, { useState, useRef, useEffect } from "react";
+// src/Components/Navbar.jsx
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { gsap } from "gsap";
+import Button from "./ui/Button";
 
 const NAV_LINKS = [
   { name: "Accueil", path: "/" },
@@ -42,37 +44,61 @@ function Navbar() {
 
   const handleLinkClick = () => setIsOpen(false);
 
-  // Styles des liens desktop (pro, petit, premium)
+  // Styles des liens desktop
   const desktopLinkClasses = ({ isActive }) =>
-    `px-3 py-1.5 rounded-full text-[10px] font-normal tracking-[0.15em] uppercase transition-all duration-200
-     ${
-       isActive
-         ? "bg-slate-900 text-amber-50 shadow-sm"
-         : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-     }`;
+    `
+      px-3 py-1.5 
+      rounded-full 
+      text-[10px] 
+      font-medium 
+      tracking-[0.18em] 
+      uppercase 
+      transition-all 
+      duration-200
+      ${
+        isActive
+          ? "bg-slate-900 text-white shadow-sm"
+          : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+      }
+    `;
 
-  // Styles des liens mobile (cohérents mais adaptés en vertical)
+  // Styles des liens mobile
   const mobileLinkClasses = ({ isActive }) =>
-    `text-sm font-medium tracking-[0.08em] uppercase transition-colors duration-200
-     ${
-       isActive
-         ? "text-blue-900"
-         : "text-slate-700 hover:text-blue-900"
-     }`;
+    `
+      text-sm 
+      font-medium 
+      tracking-[0.10em] 
+      uppercase 
+      transition-colors 
+      duration-200
+      ${
+        isActive
+          ? "text-slate-900"
+          : "text-slate-600 hover:text-slate-900"
+      }
+    `;
 
   return (
     <>
       {/* BARRE PRINCIPALE */}
-      <header className="px-4 py-3 border-b border-slate-100 bg-white/80 backdrop-blur">
-        <div className="max-w-6xl mx-auto flex items-center justify-between gap-6">
+      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-6">
           {/* LOGO + NOM ENTREPRISE */}
           <div className="flex items-center gap-3">
-            
+            {/* Si tu veux ajouter ton logo image plus tard */}
+            {/* <img
+              src="/AZ.png"
+              alt="Logo Entreprise AZ"
+              className="h-7 w-auto object-contain"
+              onError={(e) => {
+                e.target.style.display = "none";
+              }}
+            /> */}
             <div className="flex flex-col leading-tight">
-              <span className="font-medium text-sm tracking-wide">
+              <span className="font-semibold text-sm tracking-wide text-slate-900">
                 Entreprise AZ
               </span>
-              <span className="text-[10px] text-slate-500 uppercase   lg:block">
+              <span className="text-[11px] text-slate-500 uppercase tracking-[0.20em]">
                 Rénovation &amp; Maçonnerie
               </span>
             </div>
@@ -95,25 +121,24 @@ function Navbar() {
               ))}
             </nav>
 
-            <button
-              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-blue-900 text-amber-50 text-[11px] font-medium tracking-wide shadow-md hover:shadow-lg hover:-translate-y-[1px] active:scale-95 transition-all duration-200"
-              aria-label="Ouvrir le formulaire de contact"
-            >
-              Contactez-nous
-            </button>
+            <NavLink to="/contact">
+              <Button variant="secondary" size="sm">
+                Demander un devis
+              </Button>
+            </NavLink>
           </div>
 
           {/* BOUTON BURGER MOBILE / TABLETTE */}
           <button
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-slate-300"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white shadow-sm"
             onClick={() => setIsOpen(true)}
             aria-label="Ouvrir le menu"
           >
             <span className="sr-only">Ouvrir le menu</span>
             <div className="space-y-1.5">
-              <span className="block h-0.5 w-5 bg-slate-800 rounded"></span>
-              <span className="block h-0.5 w-5 bg-slate-800 rounded"></span>
-              <span className="block h-0.5 w-5 bg-slate-800 rounded"></span>
+              <span className="block h-0.5 w-5 bg-slate-900 rounded"></span>
+              <span className="block h-0.5 w-5 bg-slate-900 rounded"></span>
+              <span className="block h-0.5 w-5 bg-slate-900 rounded"></span>
             </div>
           </button>
         </div>
@@ -140,7 +165,7 @@ function Navbar() {
         >
           {/* Header du panneau */}
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-base tracking-wide">
+            <span className="font-semibold text-base tracking-wide text-slate-900">
               Menu
             </span>
             <button
@@ -153,7 +178,10 @@ function Navbar() {
           </div>
 
           {/* Liens mobile */}
-          <nav className="flex flex-col gap-4 mt-4" aria-label="Navigation mobile">
+          <nav
+            className="flex flex-col gap-4 mt-4"
+            aria-label="Navigation mobile"
+          >
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.name}
@@ -168,9 +196,18 @@ function Navbar() {
 
           {/* CTA mobile */}
           <div className="mt-auto">
-            <button className="btn btn-primary w-full">
-              Demander un devis
-            </button>
+            <NavLink to="/contact" onClick={handleLinkClick}>
+              <Button
+                variant="secondary"
+                size="md"
+                className="w-full justify-center"
+              >
+                Demander un devis
+              </Button>
+            </NavLink>
+            <p className="mt-3 text-[11px] text-slate-400">
+              Intervention en Île-de-France · Appartements, maisons, locaux pros
+            </p>
           </div>
         </div>
       </div>
