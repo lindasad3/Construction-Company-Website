@@ -2,148 +2,191 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import Button from "./ui/Button";
+import { useNavigate } from "react-router-dom";
+import SecondaryLink from "./ui/SecondaryLink";
+
+
 const titleLines = [
-  "Votre rénovation de A à Z,",
-  "sans stress, sans imprévu.",
-  "Juste le plaisir du résultat."
+  "Rénovation de A à Z,",
+  "claire, cadrée, maîtrisée.",
+  "Sans stress. Sans surprise."
 ];
+
+const bullets = [
+  "Devis détaillé, étapes définies",
+  "Délais cadrés, suivi régulier",
+  "Finitions nettes, contrôle qualité"
+];
+
+const trustChips = ["Devis transparent", "Suivi chantier", "Finitions soignées"];
 
 function Hero() {
   const heroRef = useRef(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     if (!heroRef.current) return;
 
     const chars = heroRef.current.querySelectorAll(".hero-char");
-    const subtitle = heroRef.current.querySelector(".hero-subtitle");
-    const cta = heroRef.current.querySelector(".hero-cta");
-    const meta = heroRef.current.querySelector(".hero-meta");
+    const groups = heroRef.current.querySelectorAll("[data-hero-group]");
+    const media = heroRef.current.querySelector("[data-hero-media]");
 
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
 
+    // 1) Titre (chars)
     tl.fromTo(
       chars,
       { y: "100%", opacity: 0 },
-      {
-        y: "0%",
-        opacity: 1,
-        duration: 0.5,
-        ease: "power3.out",
-        stagger: 0.02
-      }
-    )
-      .fromTo(
-        subtitle,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
-        "-=0.2"
-      )
-      .fromTo(
-        cta,
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" },
-        "-=0.2"
-      )
-      .fromTo(
-        meta,
-        { y: 10, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.35, ease: "power3.out" },
-        "-=0.2"
-      );
+      { y: "0%", opacity: 1, duration: 0.5, stagger: 0.02 }
+    );
 
-    return () => {
-      tl.kill();
-    };
+    // 2) Groupes texte (kicker, bullets, chips, CTA)
+    tl.fromTo(
+      groups,
+      { y: 14, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, stagger: 0.12 },
+      "-=0.25"
+    );
+
+    // 3) Media (vidéo/cadre)
+    tl.fromTo(
+      media,
+      { y: 18, opacity: 0, scale: 0.98 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.55 },
+      "-=0.35"
+    );
+
+    return () => tl.kill();
   }, []);
 
   return (
     <section
       ref={heroRef}
-      className="px-4 py-16 md:py-20 lg:py-16 bg-white"
+      className="bg-white px-4 py-14 md:py-20"
       aria-labelledby="hero-title"
     >
-      <div
-        className="
-          max-w-6xl mx-auto 
-          grid 
-          gap-12 lg:gap-16 
-          items-center
-          grid-cols-[repeat(auto-fit,minmax(min(100%,400px),1fr))]
-        "
-      >
-        {/* COLONNE TEXTE */}
-        <div className="space-y-6 w-full mx-auto text-center md:text-left md:max-w-none">
-          {/* Titre animé */}
-          <h1
-            id="hero-title"
-            className="text-3xl sm:text-4xl md:text-4xl font-medium tracking-tight leading-snug"
-          >
-            {titleLines.map((line, lineIndex) => (
-              <span
-                key={lineIndex}
-                className="block overflow-hidden"
-              >
-                {line.split("").map((char, charIndex) => (
-                  <span
-                    key={charIndex}
-                    className="inline-block hero-char"
-                  >
-                    {char === " " ? "\u00A0" : char}
-                  </span>
+      <div className="mx-auto max-w-6xl">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* LEFT */}
+          <div className="lg:col-span-6">
+            {/* Kicker */}
+            <p
+              data-hero-group
+              className="text-xs tracking-[0.18em] uppercase text-slate-500"
+            >
+              Rénovation intérieure • Paris & Île-de-France
+            </p>
+
+            {/* Title */}
+            <h1
+              id="hero-title"
+              className="mt-4 text-4xl sm:text-5xl md:text-5xl font-medium tracking-tight leading-[1.05]"
+            >
+              {titleLines.map((line, lineIndex) => (
+                <span key={lineIndex} className="block overflow-hidden">
+                  {line.split("").map((char, charIndex) => (
+                    <span key={charIndex} className="inline-block hero-char">
+                      {char === " " ? "\u00A0" : char}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </h1>
+
+            {/* Bullets */}
+            <div data-hero-group className="mt-6 max-w-xl">
+              <ul className="space-y-3 text-base text-slate-700">
+                {bullets.map((b, i) => (
+                  <li key={i} className="flex gap-3">
+                    {/* icon simple (cercle) — tu peux remplacer par une vraie icône */}
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-slate-900" />
+                    <span>{b}</span>
+                  </li>
                 ))}
-              </span>
-            ))}
-          </h1>
+              </ul>
+            </div>
 
-          {/* Sous-titre */}
-          <p className="hero-subtitle text-base sm:text-lg md:text-base text-slate-700 max-w-2xl mx-auto md:mx-0">
-            Vous en avez assez des artisans peu fiables, des délais non tenus
-            et des devis qui explosent ? Nous aussi.
-          </p>
+            {/* Trust chips */}
+            <div data-hero-group className="mt-6 flex flex-wrap gap-2">
+              {trustChips.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
 
-          {/* CTA + petite note */}
-          <div className="space-y-3">
-            <Button variant="secondary" size="lg">
-              Discutons de votre projet (gratuitement)
-            </Button>
+            {/* CTA row */}
+           <div data-hero-group className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+  <Button variant="secondary" size="sm">
+    Cadrer mon projet (15 min)
+  </Button>
 
-            <p className="hero-meta text-sm sm:text-base md:text-sm text-slate-500 max-w-xl mx-auto md:mx-0">
-              30% de nos clients viennent à nous parce qu&apos;un autre artisan
-              leur a fait peur. Prenons 15 minutes pour voir comment nous
-              pouvons vous apporter de la sérénité.
+  <SecondaryLink
+    onClick={() => {
+      document.getElementById("realisations")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }}
+  >
+    Voir les réalisations
+  </SecondaryLink>
+</div>
+
+            {/* Micro-copy */}
+            <p data-hero-group className="mt-3 max-w-xl text-sm text-slate-500">
+              Un échange simple pour clarifier budget, délais et priorités — puis on vous
+              dit exactement ce qu’on peut faire.
             </p>
           </div>
-        </div>
 
-        {/* COLONNE IMAGE / VISUEL */}
-        <div className="relative h-64 sm:h-80 md:h-80 rounded-3xl overflow-hidden bg-slate-900/90 w-full">
-          {/* 👉 Vidéo */}
-          <video
-            src="./hero.mov"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="w-full h-full object-cover opacity-80"
-            onError={(e) => {
-              e.target.style.display = "none";
-            }}
-          />
+          {/* RIGHT */}
+          <div className="lg:col-span-6">
+            <div
+              data-hero-media
+              className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900"
+            >
+              {/* Vidéo */}
+              <video
+                src="./hero.mov"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-[360px] w-full object-cover opacity-90 sm:h-[420px] lg:h-[520px]"
+                onError={(e) => {
+                  e.target.style.display = "none";
+                }}
+              />
 
-          {/* Texte overlay */}
-          <div className="absolute inset-4 flex flex-col justify-between">
-            <div className="text-amber-50 text-xs font-medium tracking-[0.18em] uppercase">
-              Rénovation intérieure
-            </div>
-            <div className="space-y-1 text-amber-50">
-              <p className="text-sm font-medium">
-                Ambiance chantier, précision & savoir-faire.
-              </p>
-              <p className="text-xs text-slate-200/80 max-w-xs">
-                Une rénovation maîtrisée, visible du premier coup d'œil.
-              </p>
+              {/* Overlay top */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-black/0 to-black/0" />
+
+              {/* Floating card */}
+              <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+                <div className="rounded-2xl bg-white/95 p-4 backdrop-blur">
+                  <p className="text-sm font-medium text-slate-900">
+                    Chantier cadré, résultat propre.
+                  </p>
+                  <p className="mt-1 text-xs text-slate-600">
+                    Suivi régulier, décisions claires, finitions contrôlées.
+                  </p>
+                </div>
+              </div>
+
+              {/* Tiny label */}
+              <div className="absolute left-4 top-4 sm:left-6 sm:top-6">
+                <span className="rounded-full bg-white/15 px-3 py-1 text-xs text-white/90">
+                  Rénovation • Intérieur
+                </span>
+              </div>
             </div>
           </div>
+          {/* /RIGHT */}
         </div>
       </div>
     </section>

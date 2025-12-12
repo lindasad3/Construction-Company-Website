@@ -2,6 +2,7 @@
 @plugin "daisyui";
 
 /* === FONTS === */
+/* === FONTS === */
 @font-face {
   font-family: "Satoshi";
   src: url("./assets/font/satoshi/Satoshi-Medium.otf") format("opentype");
@@ -9,9 +10,11 @@
   font-display: swap;
 }
 
+
 /* === STYLES GLOBAUX === */
 body {
-  font-family: "Satoshi", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+ 
+  @apply font-sans bg-white text-slate-900;
   background-color: #ffffff;      /* ✅ fond blanc */
   color: #0f172a;                 /* ✅ texte par défaut = text-slate-900 */
 }
