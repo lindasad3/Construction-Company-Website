@@ -20,5 +20,10 @@ Site vitrine pour une entreprise de rénovation (BTP) : landing page moderne, se
 - Routing SPA (redirects Netlify)
 
 ## Installation
+Clone the repository, install dependencies, and start the development server.
+
 ```bash
+git clone https://github.com/lindasad3/Construction-Company-Website.git
+cd Construction-Company-Website
 npm install
+npm run dev
