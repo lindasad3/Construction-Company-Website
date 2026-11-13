@@ -2,7 +2,6 @@
 import React, { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import Button from "./ui/Button";
-import { useNavigate } from "react-router-dom";
 import SecondaryLink from "./ui/SecondaryLink";
 
 
@@ -22,7 +21,6 @@ const trustChips = ["Devis transparent", "Suivi chantier", "Finitions soignées"
 
 function Hero() {
   const heroRef = useRef(null);
-  const navigate = useNavigate();
 
 
   useEffect(() => {
